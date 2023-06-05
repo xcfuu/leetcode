@@ -57,6 +57,26 @@ class SolutionOffer59 {
             return res;
     }
 
+    /**
+     * 计算月供金额
+     * @param r     利率
+     * @param nper  期数
+     * @param pv    融资金额
+     * @param fv
+     * @param type
+     * @return
+     */
+    private static Double pmt(double r, int nper, double pv, double fv, int type){
+        if (r == 0 && nper > 0) {
+            return (-pv - fv) / nper;
+        }
+        double pmt = -r * (pv * Math.pow(1 + r, nper) + fv) / ((1 + r * type) * (Math.pow(1 + r, nper) - 1));
+        return pmt;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(SolutionOffer59.pmt(7.49d/1200,24,-300000d,150000,0));
+    }
 
 }
 //leetcode submit region end(Prohibit modification and deletion)
