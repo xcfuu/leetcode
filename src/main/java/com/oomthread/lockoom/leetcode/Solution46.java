@@ -4,62 +4,46 @@ import java.util.*;
 
 //[1,2,3]
 public class Solution46 {
+
+
+    List<List<Integer>> res = new ArrayList<>();
     public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        int size = nums.length;
+
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            list.add(nums[i]);
+
+        boolean[] flag = new boolean[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            flag[i] = false;
         }
-        getAllList(res, list, new ArrayList<>(), size);
+        dfs(nums, 0, list, flag);
         return res;
     }
 
-    private void getAllList(List<List<Integer>> res, List<Integer> list, ArrayList<Integer> result, int size) {
-        if (result.size() == size) {
-            List<Integer> newList = new ArrayList<>(size);
-            for (int i = 0; i < size; i++) {
-                newList.add(result.get(i));
-            }
-            res.add(newList);
+
+    public void dfs(int[] nums, int i, List<Integer> list, boolean[] flag) {
+        if (i == nums.length) {
+            res.add(new ArrayList<>(list));
+            return;
         }
-        for (int i = 0; i < list.size(); i++) {
-            List<Integer> flagList=new ArrayList<>(list.size());
-            for (int j = 0; j < list.size(); j++) {
-                if(j!=i){
-                    flagList.add(list.get(j));
-                }
+
+        for (int j = 0; j < nums.length; j++) {
+            if (!flag[j]) {
+                //选择
+                flag[j] = true;
+                list.add(nums[j]);
+                dfs(nums, i + 1, list, flag);
+                //回滚
+                flag[j] = false;
+                list.remove(list.size() - 1);
             }
-            result.add(list.get(i));
-            getAllList(res,flagList,result,size);
-            result.remove(result.size()-1);
         }
     }
 
-    /*public static void main(String[] args) {
 
 
-        //Integer ins=new Integer(1);
-        Set<String> ins1=new HashSet<>();
-        String a="a";
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            ins1.add(a);
-            a=a+"a";
-            System.out.println(a);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-    }*/
-    public static void main(String[] args) {
-        int a=1;
-        int b=4;
-        System.out.println(b<<1);
 
-        String s="EBiATOsyQ829H6cyNNarPw";
-        System.out.println(s.substring(0,16));
-    }
+
+
+
 }
